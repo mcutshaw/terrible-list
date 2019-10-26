@@ -30,11 +30,11 @@ class db:
         tables = self.execute("SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE='BASE TABLE'")         
         if(('persons',) not in tables): 
             self.execute('''CREATE TABLE persons
-                            (person_id INT AUTO_INCREMENT,
+                            (person_id INT IDENTITY (1,1) NOT NULL, 
                             name TEXT,
                             status VARCHAR(100),
                             status_description TEXT,
-                            CONSTRAINT pkperson_id PRIMARY KEY(person_id));''')
+                            CONSTRAINT pk_person_id PRIMARY KEY CLUSTERED (person_id));''')
 
         # if(('tasks',) not in tables): 
         #     self.execute('''CREATE TABLE tasks
@@ -116,7 +116,7 @@ class db:
         self.conn.close()
 
     def connect(self):
-        self.conn = pymssql.connect(host=self.host, user=self.user, password=self.password, db=self.database, port=self.port)
+        self.conn = pymssql.connect(host=self.host, user=self.user, password=self.password, port=self.port, database=self.database)
         self.cur = self.conn.cursor()
 
     def execute(self,command):
