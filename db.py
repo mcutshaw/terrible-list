@@ -4,7 +4,7 @@ import configparser
 import pymssql
 import datetime
 
-class vcloud_db:
+class db:
 
     def __init__(self,config):
         try:
