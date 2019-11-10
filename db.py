@@ -27,7 +27,7 @@ class db:
         
 
     def build(self):
-        tables = self.execute("SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE='BASE TABLE'")         
+        tables = self.execute("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE='BASE TABLE'")         
         if(('persons',) not in tables): 
             self.execute('''CREATE TABLE persons
                             (person_id INT IDENTITY (1,1) NOT NULL, 
