@@ -9,7 +9,7 @@ import subprocess
 
 from db import db
 from user import User
-from forms import LoginForm, CaptureForm, UsersForm
+from forms import LoginForm, RegisterForm
 
 app = Flask(__name__)      
 SECRET_KEY = urandom(32)
