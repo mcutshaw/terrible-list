@@ -90,7 +90,7 @@ def thelist():
     #         print('excepted')
     #         flash('ERROR')
     #         return redirect(url_for('register'))
-    return render_template('thelist.html', title='List', form=form, users=db.getAllPersons())
+    return render_template('thelist.html', title='List', users=db.getAllPersons())
 
 
 if __name__ == '__main__':
