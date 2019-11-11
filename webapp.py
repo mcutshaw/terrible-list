@@ -9,7 +9,7 @@ import subprocess
 
 from db import db
 from user import User
-from forms import LoginForm, RegisterForm
+from forms import LoginForm, RegisterForm, RemoveForm, AddForm
 
 app = Flask(__name__)      
 SECRET_KEY = urandom(32)
@@ -89,16 +89,20 @@ def about():
 
 @app.route('/add',methods=["POST","GET"])
 def add():
-    form = RegisterForm()
+    form = AddForm()
     if form.validate_on_submit():
         print('validated')
         try:
-            subprocess.Popen(f"echo {form.password.data} | pw useradd {form.name.data} -s /usr/local/bin/bash -G wheel -h 0",stdout=subprocess.PIPE, shell=True)
-            return redirect(url_for('login'))
+            if form.status.data:
+                status_text = "NAUGHTY"
+            else:
+                status_text = "NICE"
+            db.insertPerson(form.username.data, form.name.data, status=status_text, status_description=form.status_description.data)
+            return redirect(url_for('add'))
         except:
             print('excepted')
             flash('ERROR')
-            return redirect(url_for('register'))
+            return redirect(url_for('add'))
     else:
         print(form.errors)
 
@@ -106,16 +110,16 @@ def add():
 
 @app.route('/remove',methods=["POST","GET"])
 def remove():
-    form = RegisterForm()
+    form = RemoveForm()
     if form.validate_on_submit():
         print('validated')
         try:
-            subprocess.Popen(f"echo {form.password.data} | pw useradd {form.name.data} -s /usr/local/bin/bash -G wheel -h 0",stdout=subprocess.PIPE, shell=True)
-            return redirect(url_for('login'))
+            db.deletePersonByUsername(form.username.data)
+            return redirect(url_for('remove'))
         except:
             print('excepted')
             flash('ERROR')
-            return redirect(url_for('register'))
+            return redirect(url_for('remove'))
     else:
         print(form.errors)
 
