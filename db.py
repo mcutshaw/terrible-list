@@ -32,10 +32,10 @@ class db:
         if(('persons',) not in tables): 
             self.execute('''CREATE TABLE persons
                             (person_id INT IDENTITY (1,1) NOT NULL, 
-                            name TEXT,
-                            username TEXT,
-                            status TEXT,
-                            status_description TEXT,
+                            name VARCHAR(100),
+                            username VARCHAR(100),
+                            status VARCHAR(100),
+                            status_description VARCHAR(1000),
                             CONSTRAINT pk_person_id PRIMARY KEY CLUSTERED (person_id));''')
 
     def destroy(self):
