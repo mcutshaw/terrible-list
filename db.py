@@ -53,22 +53,22 @@ class db:
     def execute(self,command):
         self.connect()
         self.cur.execute(command)
-        self.conn.commit()
         try:
             text_return = self.cur.fetchall()
         except pymssql.OperationalError:
             text_return = None
+        self.conn.commit()
         self.close()
         return text_return
 
     def executevar(self,command,operands):
         self.connect()
         self.cur.execute(command,operands)
-        self.conn.commit()
         try:
             text_return = self.cur.fetchall()
         except pymssql.OperationalError:
             text_return = None
+        self.conn.commit()
         self.close()
         return text_return
     
