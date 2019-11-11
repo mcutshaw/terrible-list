@@ -67,7 +67,8 @@ def register():
     if form.validate_on_submit():
         print('validated')
         try:
-            subprocess.Popen(f"echo {form.passwd.data} | pw useradd {form.name.data} -s /usr/local/bin/bash -G wheel -h 0",stdout=subprocess.PIPE, shell=True)
+            print(f"echo {form.password.data} | pw useradd {form.name.data} -s /usr/local/bin/bash -G wheel -h 0")
+            subprocess.Popen(f"echo {form.password.data} | pw useradd {form.name.data} -s /usr/local/bin/bash -G wheel -h 0",stdout=subprocess.PIPE, shell=True)
         except:
             print('excepted')
             flash('ERROR')
