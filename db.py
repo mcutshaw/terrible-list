@@ -36,8 +36,7 @@ class db:
                             username TEXT,
                             status VARCHAR(100),
                             status_description TEXT,
-                            CONSTRAINT pk_person_id PRIMARY KEY CLUSTERED (person_id),
-                            CONSTRAINT uc_username UNIQUE (username));''')
+                            CONSTRAINT pk_person_id PRIMARY KEY CLUSTERED (person_id));''')
 
     def destroy(self):
         self.execute("DROP TABLE persons")  
