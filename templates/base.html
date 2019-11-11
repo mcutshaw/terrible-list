@@ -1,0 +1,31 @@
+<html>
+    {% autoescape false %}
+<head>
+    {% if title %}
+    <title>{{ title }} - Santa's List</title>
+    {% else %}
+    <title>Santa's List</title>
+    {% endif %}
+
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <ul class=flashes>
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}
+
+</head>
+
+<body>
+    <div>Santa's List: <a href="/list">Home</a></div>
+    <hr>
+    {% block content %}{% endblock %}
+    {% if submessage %}
+    <h2>{{ submessage }}</h2>
+    {% endif %}
+</body>
+{% endautoescape %}
+</html>
