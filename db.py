@@ -72,99 +72,35 @@ class db:
         self.close()
         return text_return
     
-    def insertJobs(self, name, job_depends = None, status='STOPPED', start_date= None, started_date = None, completed_date = None, cancelable = 1):
-        if start_date == None:
-            start_date = str(datetime.datetime.now())
-
-        self.executevar('INSERT INTO `jobs` (name, job_depends, status, start, started_date, completed_date, cancelable) VALUES(%s,%s,%s,%s,%s,%s,%s)', (name, job_depends, status, start_date, started_date, completed_date, cancelable))
-        id = self.cur.lastrowid
-        return id
+    def insertPerson(self, username, name, status='NICE', status_description="Did nothing wrong."):
+        self.executevar('INSERT INTO `persons` (name, username, status, status_description) VALUES(%s,%s,%s,%s)', (name, username, status, status_description))
+        return None
     
-    def getJobByName(self, name):
-        jobs = self.execute(f'SELECT * FROM `jobs` WHERE name={name}')
-        return jobs[0]
+    def getPersonsByUsername(self, username):
+        persons = self.execute(f'SELECT * FROM `persons` WHERE username={username}')
+        return persons[0]
 
-    def getAllJobs(self):
-        jobs = self.execute('SELECT * FROM `jobs`')
-        return [job for job in jobs]
+    def getAllPersons(self):
+        persons = self.execute('SELECT * FROM `persons`')
+        return [person for person in persons]
+
+    def getPersonsByStatus(self, status):
+        persons = self.execute(f'SELECT * FROM `persons` WHERE status={status}')
+        return [person for person in persons]
+
+    def updatePersonStatus(self, username, status):
+        self.execute(f'UPDATE `persons` SET status=\'{status}\' WHERE username={username}')
     
-    def getReadyJobs(self):
-        jobs = self.execute('SELECT * FROM jobs WHERE status=\'READY\' AND (start<=NOW() or start=NULL)')
-        return [job for job in jobs]
+    def updatePersonStatusDescription(self, username, status_description):
+        self.execute(f'UPDATE `persons` SET status_description=\'{status_description}\' WHERE username={username}')
 
-    def updateJobStatus(self, job_id, status):
-        self.execute(f'UPDATE `jobs` SET status=\'{status}\' WHERE job_id={job_id}')
-
-    def updateJobStartedDate(self, job_id, started_date):
-        self.execute(f'UPDATE `jobs` SET started_date=\'{started_date}\' WHERE job_id={job_id}')
-
-    def updateJobCompletedDate(self, job_id, completed_date):
-        self.execute(f'UPDATE `jobs` SET completed_date=\'{completed_date}\' WHERE job_id={job_id}')
-
-    ###Tasks
-    def insertTasks(self, job_id, operation, arguments=None, task_depends=None, status='READY', log=None, started_date=None, completed_date=None):
-        self.executevar('INSERT INTO `tasks` (job_id, operation, arguments, task_depends, status, log, started_date, completed_date) VALUES(%s,%s,%s,%s,%s,%s,%s,%s)', (job_id, operation, arguments, task_depends, status, log, started_date, completed_date))
-        id = self.cur.lastrowid
-        return id
-    
-    def getTasksByJob(self, job_id):
-        tasks = self.execute(f'SELECT * FROM `tasks` WHERE job_id={job_id}')
-        return [task for task in tasks]
-
-    def getTaskByID(self, task_id):
-        tasks = self.execute(f'SELECT * FROM `tasks` WHERE task_id={task_id}')
-        return tasks[0]
-    
-    def getLastInfoTableTask(self, table):
-        tasks = self.execute(f'SELECT * FROM `tasks` WHERE operation=\'UPDATEDB\' AND arguments=\'{table}\' ORDER BY completed_date DESC LIMIT 1')
-        if tasks == ():
-            return None
-        print(tasks)
-        return tasks[0]
-    
-    def updateTaskStatus(self, task_id, status):
-        self.execute(f'UPDATE `tasks` SET status=\'{status}\' WHERE task_id={task_id}')
-
-    def updateTaskStartedDate(self, task_id, started_date):
-        self.execute(f'UPDATE `tasks` SET started_date=\'{started_date}\' WHERE task_id={task_id}')
-
-    def updateTaskCompletedDate(self, task_id, completed_date):
-        self.execute(f'UPDATE `tasks` SET completed_date=\'{completed_date}\' WHERE task_id={task_id}')
-
-    def updateTaskLog(self, task_id, log):
-        query = f'UPDATE `tasks` SET log=\'{log}\' WHERE task_id={task_id}'
-        print(query)
-        self.execute(query)
-
-    ###Users
-    def insertUser(self, username, role='admin', disabled=False):
-        self.executevar('INSERT INTO `users` (username, role, disabled) VALUES(%s,%s,%s)', (username, role, disabled))
-        id = self.cur.lastrowid
-        return id
-    
-    def getUserByName(self, username):
-        users = self.execute(f'SELECT * FROM `users` WHERE username=\'{username}\'')
-        return [user for user in users]
-    
-    def getUsers(self):
-        users = self.execute(f'SELECT * FROM `users`')
-        return [user for user in users]
-
-    def checkUserActive(self, username):
-        users = self.execute(f'SELECT * FROM `users` WHERE username=\'{username}\' and disabled=false')
+    def checkPersonExists(self, username):
+        users = self.execute(f'SELECT * FROM `persons` WHERE username=\'{username}\'')
         if len(users) > 0:
             return True
         else:
             return False
 
-
-    def checkUserExists(self, username):
-        users = self.execute(f'SELECT * FROM `users` WHERE username=\'{username}\'')
-        if len(users) > 0:
-            return True
-        else:
-            return False
-
-    def deleteUserByName(self, username):
-        self.execute(f'DELETE FROM `users` WHERE username=\'{username}\'')
+    def deletePersonByUsername(self, username):
+        self.execute(f'DELETE FROM `persons` WHERE username=\'{username}\'')
         return None
