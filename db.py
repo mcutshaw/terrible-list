@@ -33,84 +33,11 @@ class db:
             self.execute('''CREATE TABLE persons
                             (person_id INT IDENTITY (1,1) NOT NULL, 
                             name TEXT,
+                            username TEXT,
                             status VARCHAR(100),
                             status_description TEXT,
-                            CONSTRAINT pk_person_id PRIMARY KEY CLUSTERED (person_id));''')
-
-        # if(('tasks',) not in tables): 
-        #     self.execute('''CREATE TABLE tasks
-        #                     (task_id INT AUTO_INCREMENT,
-        #                     job_id INT,
-        #                     operation ENUM('CREATE', 'CHOWN', 'DELETE', 'CAPTURE', 'SNAPSHOT', 'MPOWER', 'UNDO', 'ADDUSER', 'UPDATEDB') NOT NULL,
-        #                     arguments TEXT NOT NULL,
-        #                     task_depends INT,
-        #                     status ENUM('RUNNING', 'QUEUED','COMPLETED', 'COMPLETEDWERROR', 'FAILED', 'READY'),
-        #                     log TEXT,
-        #                     started_date DATETIME,
-        #                     completed_date DATETIME,
-        #                     CONSTRAINT pk_task_id PRIMARY KEY(task_id),
-        #                     CONSTRAINT fk_job_id FOREIGN KEY(job_id) REFERENCES jobs(job_id) ON DELETE CASCADE,
-        #                     CONSTRAINT fk_task_depends FOREIGN KEY(task_depends) REFERENCES tasks(task_id) ON DELETE CASCADE);''')
-
-        # if(('vapps',) not in tables): 
-        #     self.execute('''CREATE TABLE vapps
-        #                     (vapp_id INT AUTO_INCREMENT,
-        #                     name TEXT NOT NULL,
-        #                     status TEXT,
-        #                     owner TEXT,
-        #                     created_date DATETIME,
-        #                     last_opened DATETIME,
-        #                     CONSTRAINT pk_vapp_id PRIMARY KEY(vapp_id));''')
-
-        # if(('vtemplates',) not in tables): 
-        #     self.execute('''CREATE TABLE vtemplates
-        #                     (vtemplate_id INT AUTO_INCREMENT,
-        #                     name TEXT NOT NULL,
-        #                     owner TEXT,
-        #                     created_date DATETIME,
-        #                     catalog TEXT NOT NULL,
-        #                     CONSTRAINT pk_vtemplate_id PRIMARY KEY(vtemplate_id));''')
-
-        # if(('vevents',) not in tables): 
-        #     self.execute('''CREATE TABLE vevents
-        #                     (vevent_id INT AUTO_INCREMENT,
-        #                     description TEXT NOT NULL,
-        #                     status TEXT,
-        #                     owner TEXT,
-        #                     created_date DATETIME,
-        #                     CONSTRAINT pk_vevent_id PRIMARY KEY(vevent_id));''')
-
-        # if(('vtasks',) not in tables): 
-        #     self.execute('''CREATE TABLE vtasks
-        #                     (vtask_id INT AUTO_INCREMENT,
-        #                     description TEXT NOT NULL,
-        #                     status TEXT,
-        #                     owner TEXT,
-        #                     created_date DATETIME,
-        #                     completed_date DATETIME,
-        #                     CONSTRAINT pk_vtask_id PRIMARY KEY(vtask_id));''')
-
-        # if(('userlists',) not in tables): 
-        #     self.execute('''CREATE TABLE userlists
-        #                     (userlist_id INT AUTO_INCREMENT,
-        #                     name TEXT NOT NULL,
-        #                     users TEXT,
-        #                     CONSTRAINT pk_userlist_id PRIMARY KEY(userlist_id));''')
-
-        # if(('vusers',) not in tables): 
-        #     self.execute('''CREATE TABLE vusers
-        #                     (vuser_id INT AUTO_INCREMENT,
-        #                     username TEXT,
-        #                     email TEXT,
-        #                     CONSTRAINT pk_vuser_id PRIMARY KEY(vuser_id));''')
-
-        # if(('users',) not in tables): 
-        #     self.execute('''CREATE TABLE users
-        #                     (user_id INT AUTO_INCREMENT,
-        #                     username TEXT,
-        #                     role TEXT,
-        #                     disabled BOOLEAN,
-        #                     CONSTRAINT pk_user_id PRIMARY KEY(user_id));''')
+                            CONSTRAINT pk_person_id PRIMARY KEY CLUSTERED (person_id),
+                            CONSTRAINT uc_username UNIQUE (username));''')
 
     
     def close(self):
@@ -135,8 +62,7 @@ class db:
         text_return = self.cur.fetchall()
         self.close()
         return text_return
-
-    ###Jobs
+    
     def insertJobs(self, name, job_depends = None, status='STOPPED', start_date= None, started_date = None, completed_date = None, cancelable = 1):
         if start_date == None:
             start_date = str(datetime.datetime.now())
