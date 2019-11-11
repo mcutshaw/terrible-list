@@ -4,7 +4,6 @@ from configparser import ConfigParser
 from flask import Flask, render_template, request, Response, session, redirect, url_for, flash
 from functools import wraps
 from flask_login import LoginManager, current_user, login_user, logout_user, login_required
-from is_safe_url import is_safe_url
 from os import urandom
 import subprocess
 
