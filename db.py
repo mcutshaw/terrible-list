@@ -34,7 +34,7 @@ class db:
                             (person_id INT IDENTITY (1,1) NOT NULL, 
                             name TEXT,
                             username TEXT,
-                            status VARCHAR(100),
+                            status TEXT,
                             status_description TEXT,
                             CONSTRAINT pk_person_id PRIMARY KEY CLUSTERED (person_id));''')
 
