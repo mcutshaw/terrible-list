@@ -64,6 +64,7 @@ def login():
 @app.route('/register',methods=["POST","GET"])
 def register():
     form = RegisterForm()
+    print('hey')
     if form.validate_on_submit():
         print('validated')
         try:
