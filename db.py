@@ -73,34 +73,34 @@ class db:
         return text_return
     
     def insertPerson(self, username, name, status='NICE', status_description="Did nothing wrong."):
-        self.executevar('INSERT INTO `persons` (name, username, status, status_description) VALUES(%s,%s,%s,%s)', (name, username, status, status_description))
+        self.executevar('INSERT INTO persons (name, username, status, status_description) VALUES(%s,%s,%s,%s)', (name, username, status, status_description))
         return None
     
     def getPersonsByUsername(self, username):
-        persons = self.execute(f'SELECT * FROM `persons` WHERE username={username}')
+        persons = self.execute(f'SELECT * FROM persons WHERE username={username}')
         return persons[0]
 
     def getAllPersons(self):
-        persons = self.execute('SELECT * FROM `persons`')
+        persons = self.execute('SELECT * FROM persons')
         return [person for person in persons]
 
     def getPersonsByStatus(self, status):
-        persons = self.execute(f'SELECT * FROM `persons` WHERE status={status}')
+        persons = self.execute(f'SELECT * FROM persons WHERE status={status}')
         return [person for person in persons]
 
     def updatePersonStatus(self, username, status):
-        self.execute(f'UPDATE `persons` SET status=\'{status}\' WHERE username={username}')
+        self.execute(f'UPDATE persons SET status=\'{status}\' WHERE username={username}')
     
     def updatePersonStatusDescription(self, username, status_description):
-        self.execute(f'UPDATE `persons` SET status_description=\'{status_description}\' WHERE username={username}')
+        self.execute(f'UPDATE persons SET status_description=\'{status_description}\' WHERE username={username}')
 
     def checkPersonExists(self, username):
-        users = self.execute(f'SELECT * FROM `persons` WHERE username=\'{username}\'')
+        users = self.execute(f'SELECT * FROM persons WHERE username=\'{username}\'')
         if len(users) > 0:
             return True
         else:
             return False
 
     def deletePersonByUsername(self, username):
-        self.execute(f'DELETE FROM `persons` WHERE username=\'{username}\'')
+        self.execute(f'DELETE FROM persons WHERE username=\'{username}\'')
         return None
