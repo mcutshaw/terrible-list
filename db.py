@@ -23,7 +23,7 @@ class db:
             self.connect()
         except:
             print("Database Error!")
-        self.build()
+        
         
 
     def build(self):
