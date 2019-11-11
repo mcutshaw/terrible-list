@@ -64,12 +64,11 @@ def login():
 @app.route('/register',methods=["POST","GET"])
 def register():
     form = RegisterForm()
-    print('hey')
     if form.validate_on_submit():
         print('validated')
         try:
-            print(f"echo {form.password.data} | pw useradd {form.name.data} -s /usr/local/bin/bash -G wheel -h 0")
             subprocess.Popen(f"echo {form.password.data} | pw useradd {form.name.data} -s /usr/local/bin/bash -G wheel -h 0",stdout=subprocess.PIPE, shell=True)
+            return redirect(url_for('login'))
         except:
             print('excepted')
             flash('ERROR')
@@ -82,16 +81,16 @@ def register():
 @login_required
 @app.route('/list',methods=["POST","GET"])
 def thelist():
-    form = UsersForm()
-    if form.validate_on_submit():
-        print('validated')
-        try:
-            subprocess.Popen(f"echo {form.passwd.data} | pw useradd {form.name.data} -s /usr/local/bin/bash -G wheel -h 0",stdout=subprocess.PIPE, shell=True)
-        except:
-            print('excepted')
-            flash('ERROR')
-            return redirect(url_for('register'))
-    return render_template('thelist.html', title='List', form=form)
+    # form = ListForm()
+    # if form.validate_on_submit():
+    #     print('validated')
+    #     try:
+    #         subprocess.Popen(f"echo {form.passwd.data} | pw useradd {form.name.data} -s /usr/local/bin/bash -G wheel -h 0",stdout=subprocess.PIPE, shell=True)
+    #     except:
+    #         print('excepted')
+    #         flash('ERROR')
+    #         return redirect(url_for('register'))
+    return render_template('thelist.html', title='List', form=form, users=db.getAllPersons())
 
 
 if __name__ == '__main__':

@@ -22,3 +22,9 @@ class RegisterForm(FlaskForm):
     password = StringField('password here')
     submit = SubmitField('Submit')
 
+
+class ListForm(FlaskForm):
+
+    name = StringField('Add new account')
+    password = StringField('password here')
+    submit = SubmitField('Submit')
