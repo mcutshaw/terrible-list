@@ -74,6 +74,9 @@ def register():
             print('excepted')
             flash('ERROR')
             return redirect(url_for('register'))
+    else:
+        print(form.errors)
+
     return render_template('register.html', title='Register', form=form)
 
 @login_required
