@@ -81,17 +81,44 @@ def register():
 @login_required
 @app.route('/list',methods=["POST","GET"])
 def thelist():
-    # form = ListForm()
-    # if form.validate_on_submit():
-    #     print('validated')
-    #     try:
-    #         subprocess.Popen(f"echo {form.passwd.data} | pw useradd {form.name.data} -s /usr/local/bin/bash -G wheel -h 0",stdout=subprocess.PIPE, shell=True)
-    #     except:
-    #         print('excepted')
-    #         flash('ERROR')
-    #         return redirect(url_for('register'))
     return render_template('thelist.html', title='List', users=db.getAllPersons())
 
+@app.route('/about',methods=["POST","GET"])
+def about():
+    return render_template('register.html', title='About')
 
+@app.route('/add',methods=["POST","GET"])
+def add():
+    form = RegisterForm()
+    if form.validate_on_submit():
+        print('validated')
+        try:
+            subprocess.Popen(f"echo {form.password.data} | pw useradd {form.name.data} -s /usr/local/bin/bash -G wheel -h 0",stdout=subprocess.PIPE, shell=True)
+            return redirect(url_for('login'))
+        except:
+            print('excepted')
+            flash('ERROR')
+            return redirect(url_for('register'))
+    else:
+        print(form.errors)
+
+    return render_template('register.html', title='Register', form=form)
+
+@app.route('/remove',methods=["POST","GET"])
+def remove():
+    form = RegisterForm()
+    if form.validate_on_submit():
+        print('validated')
+        try:
+            subprocess.Popen(f"echo {form.password.data} | pw useradd {form.name.data} -s /usr/local/bin/bash -G wheel -h 0",stdout=subprocess.PIPE, shell=True)
+            return redirect(url_for('login'))
+        except:
+            print('excepted')
+            flash('ERROR')
+            return redirect(url_for('register'))
+    else:
+        print(form.errors)
+
+    return render_template('register.html', title='Register', form=form)
 if __name__ == '__main__':
         app.run(host='0.0.0.0', port=5000)

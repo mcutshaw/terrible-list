@@ -22,9 +22,21 @@ class RegisterForm(FlaskForm):
     password = StringField('password here')
     submit = SubmitField('Submit')
 
-
 class ListForm(FlaskForm):
 
     name = StringField('Add new account')
     password = StringField('password here')
+    submit = SubmitField('Submit')
+
+class RemoveForm(FlaskForm):
+
+    name = StringField('Person to remove from list')
+    submit = SubmitField('Submit')
+
+class AddForm(FlaskForm):
+
+    name = StringField('Full name')
+    username = StringField('Username')
+    status = BooleanField('Status')
+    status_description = StringField('Why')
     submit = SubmitField('Submit')
