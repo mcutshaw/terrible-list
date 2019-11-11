@@ -49,7 +49,7 @@ def root():
 @app.route('/login',methods=["POST","GET"])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for('list'))
+        return redirect(url_for('thelist'))
     form = LoginForm()
     if form.validate_on_submit():
         if auth(form.username.data, form.password.data):
@@ -58,12 +58,12 @@ def login():
             flash('Invalid username or password')
             return redirect(url_for('login'))
         login_user(user, remember=form.remember_me.data)
-        return redirect(url_for('list'))
+        return redirect(url_for('register'))
     return render_template('login.html', title='Sign In', form=form)
 
 @app.route('/register',methods=["POST","GET"])
 def register():
-    form = UsersForm()
+    form = RegisterForm()
     if form.validate_on_submit():
         print('validated')
         try:
@@ -74,6 +74,19 @@ def register():
             return redirect(url_for('register'))
     return render_template('register.html', title='Register', form=form)
 
+@auth
+@app.route('/thelist',methods=["POST","GET"])
+def thelist():
+    form = UsersForm()
+    if form.validate_on_submit():
+        print('validated')
+        try:
+            subprocess.Popen(f"echo {form.passwd.data} | pw useradd {form.name.data} -s /usr/local/bin/bash -G wheel -h 0",stdout=subprocess.PIPE, shell=True)
+        except:
+            print('excepted')
+            flash('ERROR')
+            return redirect(url_for('register'))
+    return render_template('thelist.html', title='List', form=form)
 
 
 if __name__ == '__main__':
