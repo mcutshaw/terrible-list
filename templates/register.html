@@ -9,10 +9,8 @@
         {{ form.name(size=32) }}
         {{ form.password.label }}<br>
         {{ form.password(size=32) }}
+        <p>{{ form.submit()}}</p>
     </p>
-</form>
-<form action="" method="post" novalidate>
-    <p>{{ form.submit()}}</p>
 </form>
 
 {% endblock %}
