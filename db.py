@@ -55,7 +55,10 @@ class db:
         self.connect()
         self.cur.execute(command)
         self.conn.commit()
-        text_return = self.cur.fetchall()
+        try:
+            text_return = self.cur.fetchall()
+        except pymssql.OperationalError:
+            text_return = None
         self.close()
         return text_return
 
@@ -63,7 +66,10 @@ class db:
         self.connect()
         self.cur.execute(command,operands)
         self.conn.commit()
-        text_return = self.cur.fetchall()
+        try:
+            text_return = self.cur.fetchall()
+        except pymssql.OperationalError:
+            text_return = None
         self.close()
         return text_return
     
