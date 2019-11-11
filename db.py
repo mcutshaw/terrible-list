@@ -39,6 +39,10 @@ class db:
                             CONSTRAINT pk_person_id PRIMARY KEY CLUSTERED (person_id),
                             CONSTRAINT uc_username UNIQUE (username));''')
 
+    def destroy(self):
+        self.execute("DROP TABLE persons")  
+        print("Tables destroyed")
+
     
     def close(self):
         self.conn.close()
