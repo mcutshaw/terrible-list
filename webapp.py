@@ -106,7 +106,7 @@ def add():
     else:
         print(form.errors)
 
-    return render_template('register.html', title='Register', form=form)
+    return render_template('add.html', title='Add', form=form)
 
 @app.route('/remove',methods=["POST","GET"])
 def remove():
@@ -123,6 +123,6 @@ def remove():
     else:
         print(form.errors)
 
-    return render_template('register.html', title='Register', form=form)
+    return render_template('remove.html', title='Remove', form=form)
 if __name__ == '__main__':
         app.run(host='0.0.0.0', port=5000)
