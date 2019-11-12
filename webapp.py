@@ -87,6 +87,7 @@ def thelist():
 def about():
     return render_template('register.html', title='About')
 
+@login_required
 @app.route('/add',methods=["POST","GET"])
 def add():
     form = AddForm()
@@ -108,6 +109,7 @@ def add():
 
     return render_template('add.html', title='Add', form=form)
 
+@login_required
 @app.route('/remove',methods=["POST","GET"])
 def remove():
     form = RemoveForm()
@@ -116,8 +118,8 @@ def remove():
         try:
             db.deletePersonByUsername(form.username.data)
             return redirect(url_for('remove'))
-        except:
-            print('excepted')
+        except as e:
+            print('e')
             flash('ERROR')
             return redirect(url_for('remove'))
     else:

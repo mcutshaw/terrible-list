@@ -37,6 +37,6 @@ class AddForm(FlaskForm):
 
     name = StringField('Full name')
     username = StringField('Username')
-    status = BooleanField('Status')
+    status = BooleanField('NAUGHTY')
     status_description = StringField('Why')
     submit = SubmitField('Submit')
