@@ -116,7 +116,7 @@ def remove():
     if form.validate_on_submit():
         print('validated')
         try:
-            db.deletePersonByUsername(form.username.data)
+            db.deletePersonByUsername(form.name.data)
             return redirect(url_for('remove'))
         except Exception as e:
             print(e)
