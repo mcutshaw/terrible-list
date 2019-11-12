@@ -125,6 +125,6 @@ def remove():
     else:
         print(form.errors)
 
-    return render_template('remove.html', title='Remove')
+    return render_template('remove.html', title='Remove', form=form)
 if __name__ == '__main__':
         app.run(host='0.0.0.0', port=5000)
