@@ -1,7 +1,9 @@
 <html>
-    {% autoescape false %}
+{% autoescape false %}
+
 <head>
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     {% if title %}
     <title>{{ title }} - Santa's List</title>
     {% else %}
@@ -21,14 +23,17 @@
 </head>
 
 <body>
-    <div>Santa's List: 
-        <a href="/list">THE LIST</a>
-        <a href="/login">Login</a>
-        <a href="/register">Register</a>
-        <a href="/remove">Remove</a>
-        <a href="/add">Add</a>
-        <a href="/about">About</a>
-    </div>
+    <nav class="navbar navbar-default">
+        <div class="navbar-header">Santa's List: </div>
+        <ul class="nav navbar-nav">
+            <a href="/list">THE LIST</a>
+            <a href="/login">Login</a>
+            <a href="/register">Register</a>
+            <a href="/remove">Remove</a>
+            <a href="/add">Add</a>
+            <a href="/about">About</a>
+        </ul>
+    </nav>
     <hr>
     {% block content %}{% endblock %}
     {% if submessage %}
@@ -36,4 +41,5 @@
     {% endif %}
 </body>
 {% endautoescape %}
+
 </html>
