@@ -85,7 +85,7 @@ def thelist():
 
 @app.route('/about',methods=["POST","GET"])
 def about():
-    return render_template('register.html', title='About')
+    return render_template('about.html', title='About')
 
 @login_required
 @app.route('/add',methods=["POST","GET"])
