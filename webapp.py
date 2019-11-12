@@ -118,7 +118,7 @@ def remove():
         try:
             db.deletePersonByUsername(form.username.data)
             return redirect(url_for('remove'))
-        except as e:
+        except Exception as e:
             print('e')
             flash('ERROR')
             return redirect(url_for('remove'))
